@@ -23,6 +23,13 @@ class OrdersService:
         return OrderSchema().dump(order).data
 
     @rpc
+    def list_orders(self):
+        orders = self.db.query(Order).all()
+        if not orders:
+            raise NotFound("Table orders is empty.")
+        return OrderSchema().dump(orders, many=True).data
+    
+    @rpc
     def create_order(self, order_details):
         order = Order(
             order_details=[
@@ -66,3 +73,4 @@ class OrdersService:
         order = self.db.query(Order).get(order_id)
         self.db.delete(order)
         self.db.commit()
+

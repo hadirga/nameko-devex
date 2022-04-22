@@ -4,12 +4,31 @@ from fastapi.params import Depends
 from typing import List
 from gateapi.api import schemas
 from gateapi.api.dependencies import get_rpc, config
-from .exceptions import OrderNotFound
+from .exceptions import EmptyOrders, OrderNotFound
 
 router = APIRouter(
     prefix = "/orders",
     tags = ['Orders']
 )
+
+@router.get("/list", status_code=status.HTTP_200_OK)
+def get_list_orders(rpc = Depends(get_rpc)):
+    try:
+        return _get_list_orders(rpc)
+    except EmptyOrders as error:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(error)
+        )
+
+def _get_list_orders(nameko_rpc):
+    # Retrieve orders data from the orders service.
+    # Note - this may raise a remote exception that has been mapped to
+    # raise``EmptyOrders``
+    with nameko_rpc.next() as nameko:
+        orders = nameko.orders.list_orders()
+    return orders
+
 
 @router.get("/{order_id}", status_code=status.HTTP_200_OK)
 def get_order(order_id: int, rpc = Depends(get_rpc)):
@@ -44,6 +63,7 @@ def _get_order(order_id, nameko_rpc):
         item['image'] = '{}/{}.jpg'.format(image_root, product_id)
 
     return order
+
 
 @router.post("", status_code=status.HTTP_200_OK, response_model=schemas.CreateOrderSuccess)
 def create_order(request: schemas.CreateOrder, rpc = Depends(get_rpc)):
