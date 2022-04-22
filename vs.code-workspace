@@ -1,0 +1,32 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "window.zoomLevel": 0,
+    "python.analysis.extraPaths": ["/opt/venv/bin/python"],
+    "peacock.color": "#EB7935",
+    "jupyter.jupyterServerType": "local",
+    "workbench.colorCustomizations": {
+      "activityBar.activeBackground": "#f09863",
+      "activityBar.activeBorder": "#e2fcec",
+      "activityBar.background": "#f09863",
+      "activityBar.foreground": "#15202b",
+      "activityBar.inactiveForeground": "#15202b99",
+      "activityBarBadge.background": "#e2fcec",
+      "activityBarBadge.foreground": "#15202b",
+      "sash.hoverBorder": "#f09863",
+      "statusBar.background": "#eb7935",
+      "statusBar.foreground": "#15202b",
+      "statusBarItem.hoverBackground": "#d85e15",
+      "statusBarItem.remoteBackground": "#eb7935",
+      "statusBarItem.remoteForeground": "#15202b",
+      "titleBar.activeBackground": "#eb7935",
+      "titleBar.activeForeground": "#15202b",
+      "titleBar.inactiveBackground": "#eb793599",
+      "titleBar.inactiveForeground": "#15202b99"
+    }
+  }
+}
