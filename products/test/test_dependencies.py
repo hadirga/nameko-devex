@@ -47,6 +47,12 @@ def test_create(product, redis_client, storage):
         int(stored_product[b'passenger_capacity']))
     assert product['in_stock'] == int(stored_product[b'in_stock'])
 
+def test_delete(products, redis_client, storage):
+    product = storage.get('LZ129')
+    storage.delete(product['id'])
+    listed_products = storage.list()
+    listed_products_id = [p['id'] for p in listed_products]
+    assert listed_products_id == ['LZ127', 'LZ130']
 
 def test_decrement_stock(storage, create_product, redis_client):
     create_product(id=1, title='LZ 127', in_stock=10)
