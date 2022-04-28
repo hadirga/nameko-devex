@@ -57,12 +57,12 @@ ORDER_ID=$(
 echo ${ORDER_ID} | jq .
 ID=$(echo ${ORDER_ID} | jq '.id')
 echo
-echo "=== Creating Order: the_honda ==="
+echo "=== Creating Order with two products: the_odyssey and the_honda ==="
 ORDER_ID2=$(
     curl -s -XPOST "${STD_APP_URL}/orders" \
     -H 'accept: application/json' \
     -H 'Content-Type: application/json' \
-    -d '{"order_details": [{"product_id": "the_honda", "price": "1200.99", "quantity": 7}]}' 
+    -d '{"order_details": [{"product_id": "the_odyssey", "price": "100000.99", "quantity": 1},{"product_id": "the_honda", "price": "1200.99", "quantity": 7}]}' 
 )
 echo ${ORDER_ID2} | jq .
 echo

@@ -4,6 +4,7 @@ from fastapi.params import Depends
 from typing import List
 from gateapi.api import schemas
 from gateapi.api.dependencies import get_rpc, config
+from gateapi.api.routers import product
 from .exceptions import EmptyOrders, OrderNotFound
 
 router = APIRouter(
@@ -75,12 +76,10 @@ def create_order(request: schemas.CreateOrder, rpc = Depends(get_rpc)):
 def _create_order(order_data, nameko_rpc):
     # check order product ids are valid
     with nameko_rpc.next() as nameko:
-        valid_product_ids = {prod['id'] for prod in nameko.products.list()}
+        
         for item in order_data['order_details']:
-            if item['product_id'] not in valid_product_ids:
-                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                                    detail=f"Product with id {item['product_id']} not found"
-            )
+            product.get_product(item['product_id'], nameko_rpc)
+
         # Call orders-service to create the order.
         result = nameko.orders.create_order(
             order_data['order_details']

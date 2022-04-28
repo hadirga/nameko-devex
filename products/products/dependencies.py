@@ -39,7 +39,7 @@ class StorageWrapper:
     def get(self, product_id):
         product = self.client.hgetall(self._format_key(product_id))
         if not product:
-            raise NotFound('Product ID {} does not exist'.format(product_id))
+            raise NotFound(f'Product ID=`{product_id}` does not exist')
         else:
             return self._from_hash(product)
 
