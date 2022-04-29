@@ -48,20 +48,15 @@ def _get_order(order_id, nameko_rpc):
     with nameko_rpc.next() as nameko:
         order = nameko.orders.get_order(order_id)
 
-    # Retrieve all products from the products service
-    with nameko_rpc.next() as nameko:
-        product_map = {prod['id']: prod for prod in nameko.products.list()}
-
     # get the configured image root
     image_root = config['PRODUCT_IMAGE_ROOT']
 
     # Enhance order details with product and image details.
     for item in order['order_details']:
         product_id = item['product_id']
-
-        item['product'] = product_map[product_id]
+        item['product'] = product.get_product(product_id, nameko_rpc)
         # Construct an image url.
-        item['image'] = '{}/{}.jpg'.format(image_root, product_id)
+        item['image'] = f'{image_root}/{product_id}.jpg'
 
     return order
 
