@@ -24,6 +24,15 @@ class OrderNotFound(Exception):
     """
     pass
 
+@remote_error('orders.exceptions.EmptyOrders')
+class EmptyOrders(Exception):
+    """
+    If the orders service raises a ``EmptyOrders`` error from an RPC call,
+    The ``RemoteError`` will be transformed and raised locally as this
+    exception instead.
+    """
+    pass
+
 
 @remote_error('products.exceptions.NotFound')
 class ProductNotFound(Exception):

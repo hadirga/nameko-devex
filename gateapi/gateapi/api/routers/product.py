@@ -11,7 +11,6 @@ router = APIRouter(
 
 @router.delete("/delete/{product_id}", status_code=status.HTTP_200_OK, response_model=schemas.DeleteProductSuccess)
 def delete_product(product_id: str, rpc = Depends(get_rpc)):
-    print(product_id)
     with rpc.next() as nameko:
         nameko.products.delete(product_id)
         return {
